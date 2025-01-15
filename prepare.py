@@ -19,9 +19,11 @@ plt.rc('font', size=16)
 
 
 def prepare_store_data(df):
+    df = df.fillna(method='ffill')
     df['sale_date'] = pd.to_datetime(df.sale_date)
     df = df.set_index('sale_date').sort_index()
     df['month']= df.index.month_name()
     df['day_of_week'] = df.index.day_name()
     df['sales_total']= df['sale_amount'] * df['item_price']
+    df = df.rename(columns={'sale_amount': 'quantity'})
     return df
